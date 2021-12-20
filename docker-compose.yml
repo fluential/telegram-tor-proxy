@@ -1,0 +1,88 @@
+version: '2'
+
+services:
+  tor-socks-proxy:
+    container_name: tor-socks-proxy
+    build: tor
+    image: peterdavehello/tor-socks-proxy:latest
+    restart: unless-stopped
+    ports: 
+     - 443:3128
+    dns: 172.20.0.5
+    user: root
+    cap_add:
+      - NET_ADMIN
+    networks:
+      vpcbr:
+        ipv4_address: 172.20.0.2
+    volumes:
+      - ./torrc:/etc/tor/torrc:ro
+    command: >
+      /bin/sh -c '_tor_uid=$$(id -u tor) &&
+      iptables -P FORWARD DROP &&
+      iptables -P OUTPUT DROP &&
+      iptables -A OUTPUT -m conntrack --ctstate INVALID -j DROP &&
+      iptables -A OUTPUT -m state --state INVALID -j LOG --log-prefix "Transproxy state leak blocked: " --log-uid &&
+      iptables -A OUTPUT -m state --state INVALID -j DROP &&
+      iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,FIN ACK,FIN -j LOG --log-prefix "Transproxy leak blocked: " --log-uid &&
+      iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,RST ACK,RST -j LOG --log-prefix "Transproxy leak blocked: " --log-uid &&
+      iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,FIN ACK,FIN -j DROP &&
+      iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,RST ACK,RST -j DROP &&
+      iptables -t nat -A OUTPUT -m owner --uid-owner $$_tor_uid -j RETURN &&
+      iptables -A OUTPUT -m owner --uid-owner $$_tor_uid -j ACCEPT &&
+      iptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 172.20.0.5:53 &&
+      iptables -t nat -A OUTPUT -d 127.0.0.0/8 -j RETURN &&
+      iptables -t nat -A OUTPUT -d 172.20.0.0/16 -j RETURN && 
+      iptables -A OUTPUT -d 127.0.0.0/8 -j ACCEPT &&
+      iptables -A OUTPUT -d 172.20.0.0/16 -j ACCEPT &&
+      iptables -t nat -A OUTPUT -p tcp --syn -j REDIRECT --to-ports 9040 &&
+      iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT &&
+      iptables -A OUTPUT -j REJECT &&
+      exec su-exec tor /usr/bin/tor -f /etc/tor/torrc'
+
+  socat:
+    container_name: socat
+    image: alpine/socat
+    restart: unless-stopped
+    user: nobody
+    command: -d -d TCP4-LISTEN:443,reuseaddr,fork,bind=0.0.0.0 SOCKS4A:tor-socks-proxy:dns4torpnlfs2ifuz2s2yf3fc7rdmsbhm6rw75euj35pac6ap25zgqad.onion:443,socksport=9150
+    dns: 172.20.0.5
+    depends_on: 
+      - tor-socks-proxy
+    networks:
+      vpcbr:
+        ipv4_address: 172.20.0.3
+        aliases:
+          - dns4torpnlfs2ifuz2s2yf3fc7rdmsbhm6rw75euj35pac6ap25zgqad.onion 
+
+ # Cloudflare dns-proxy requires /etc/hosts entry, using aliases isn't good enough 
+  cloudflared:
+    container_name: cloudflared
+    #build: cloudflared
+    user: root:root
+    # we need root shell to populate /etc/hosts
+    image: visibilityspots/cloudflared 
+    restart: unless-stopped
+    depends_on: 
+      - tor-socks-proxy
+    command: >
+      /bin/sh -c 'host dns4torpnlfs2ifuz2s2yf3fc7rdmsbhm6rw75euj35pac6ap25zgqad.onion|while read host _ _ ip;do echo "$$ip $$host" >> /etc/hosts;done &&
+      exec su-exec cloudflared /usr/local/bin/cloudflared proxy-dns --port 5054 --metrics 0.0.0.0:8080 --address 0.0.0.0 --upstream https://dns4torpnlfs2ifuz2s2yf3fc7rdmsbhm6rw75euj35pac6ap25zgqad.onion/dns-query'
+    dns: 172.20.0.5
+    networks:
+      vpcbr:
+        ipv4_address: 172.20.0.5
+  mtg:
+    container_name: mtg
+    image: nineseconds/mtg:2
+    restart: unless-stopped
+    volumes:
+      - ./mtg.config.toml:/config.toml:ro
+    network_mode: service:tor-socks-proxy
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/16

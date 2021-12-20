@@ -1,0 +1,8 @@
+HardwareAccel 1
+Log notice stdout
+DNSPort 0.0.0.0:8853
+SocksPort 0.0.0.0:9150
+VirtualAddrNetworkIPv4 10.192.0.0/10
+AutomapHostsOnResolve 1
+TransPort 9040 IsolateClientAddr IsolateClientProtocol IsolateDestAddr IsolateDestPort
+DataDirectory /var/lib/tor
