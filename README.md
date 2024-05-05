@@ -63,6 +63,8 @@ To get access details:
   }
 }
 ```
+### TODO
+Run all this as a single container
 
 ### More
 - [Telegram MTProto Proxy link generator](http://seriyps.ru/mtpgen.html)
