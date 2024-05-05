@@ -38,8 +38,7 @@ Default params for connection are:
 - Hex secret: `7e673f88b044e516725dc2b71d21e8a9`
 - Fake-TLS domain: `storage.googleapis.com`
 
-Telegram connection link: `https://t.me/proxy?server=<YOUR_SERVER_IP>&port=443&secret=78bed9ab31be56bb41173c859d831f72`
-
+Telegram connection link: `https://t.me/proxy?server=<YOUR_SERVER_IP>&port=443&secret=7n5nP4iwROUWcl3Ctx0h6KlzdG9yYWdlLmdvb2dsZWFwaXMuY29t`
 ### Components
 
 - Tor Socks Proxy
