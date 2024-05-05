@@ -38,6 +38,8 @@ Default params for connection are:
 - Hex secret: `7e673f88b044e516725dc2b71d21e8a9`
 - Fake-TLS domain: `storage.googleapis.com`
 
+Telegram connection link: `https://t.me/proxy?server=<YOUR_SERVER_IP>&port=443&secret=7n5nP4iwROUWcl3Ctx0h6KlzdG9yYWdlLmdvb2dsZWFwaXMuY29t`
+
 ## Generate secret
 
 ```shell
@@ -50,7 +52,6 @@ ee473ce5d4958eb5f968c87680a23854a0676f6f676c652e636f6d
 
 Set new secret in `mtg.config.toml`
 
-Telegram connection link: `https://t.me/proxy?server=<YOUR_SERVER_IP>&port=443&secret=7n5nP4iwROUWcl3Ctx0h6KlzdG9yYWdlLmdvb2dsZWFwaXMuY29t`
 ### Components
 
 - Tor Socks Proxy
