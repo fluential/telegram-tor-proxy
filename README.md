@@ -1,5 +1,8 @@
 # telegram-tor-proxy
+<img width="514" alt="mtprotor-logo-linetop-color" src="https://github.com/fluential/telegram-tor-proxy/assets/1957220/1bf3085a-9d5f-4b42-951f-12cfe2233d2a">
+
 Telegram over Tor Anonymizing Proxy
+
 
 ## This is simple docker MTProto Telegram over Tor Anonymizing Proxy.
 
