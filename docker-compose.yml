@@ -76,6 +76,8 @@ services:
   mtg:
     container_name: mtg
     image: nineseconds/mtg:2
+    environment:
+      - MTG_KEY=7n5nP4iwROUWcl3Ctx0h6KlzdG9yYWdlLmdvb2dsZWFwaXMuY29t
     restart: unless-stopped
     volumes:
       - ./mtg.config.toml:/config.toml:ro

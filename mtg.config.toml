@@ -19,7 +19,7 @@ debug = true
 # simple and secured mode are prohibited. For you it means that secret
 # should either be base64-encoded or starts with ee.
 #secret = "ee367a189aee18fa31c190054efd4a8e9573746f726167652e676f6f676c65617069732e636f6d"
-secret = "7n5nP4iwROUWcl3Ctx0h6KlzdG9yYWdlLmdvb2dsZWFwaXMuY29t"
+secret = "__MTG_SECRET__"
 
 # Host:port pair to run proxy on.
 bind-to = "0.0.0.0:3128"
