@@ -8,7 +8,7 @@ Telegram over Tor Anonymizing Proxy
 
 ## This is MTProto Telegram over Tor Anonymizing Stealth Proxy
 
-This docker-compose setup will allow to connect to a Telegram over Tor Anonymizing Proxy via SOCK5 proxy chaining feature of a an excellent [mtg:2](https://github.com/9seconds/mtg/tree/v2) alongside with Faketls and so on. There is no adtag support.
+This docker-compose setup will allow to connect to a Telegram over Tor Anonymizing Proxy using excellent [mtg:2](https://github.com/9seconds/mtg/tree/v2). It uses iptables to block and redirect all traffic accordingly via TOR.
 
 It will allow you to:
   - originate on telegram servers from one of the tor exit nodes. Be nice because telegram does not run tor hidden services so you are at mercy of tor exit node operators.
