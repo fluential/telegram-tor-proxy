@@ -3,8 +3,8 @@ version: '2'
 services:
   tor-socks-proxy:
     container_name: tor-socks-proxy
+    image: tor-socks-proxy #peterdavehello/tor-socks-proxy:latest
     build: tor
-    image: peterdavehello/tor-socks-proxy:latest
     restart: unless-stopped
     ports: 
      - 443:3128
@@ -16,7 +16,7 @@ services:
       vpcbr:
         ipv4_address: 172.20.0.2
     volumes:
-      - ./torrc:/etc/tor/torrc:ro
+      - ./tor/torrc:/etc/tor/torrc:ro
     command: >
       /bin/sh -c '_tor_uid=$$(id -u tor) &&
       iptables -P FORWARD DROP &&
@@ -42,7 +42,8 @@ services:
 
   socat:
     container_name: socat
-    image: alpine/socat
+    image: socat #alpine/socat
+    build: socat
     restart: unless-stopped
     user: nobody
     command: -d -d TCP4-LISTEN:443,reuseaddr,fork,bind=0.0.0.0 SOCKS4A:tor-socks-proxy:dns4torpnlfs2ifuz2s2yf3fc7rdmsbhm6rw75euj35pac6ap25zgqad.onion:443,socksport=9150
@@ -58,10 +59,10 @@ services:
  # Cloudflare dns-proxy requires /etc/hosts entry, using aliases isn't good enough 
   cloudflared:
     container_name: cloudflared
-    #build: cloudflared
+    build: cloudflared
     user: root:root
     # we need root shell to populate /etc/hosts
-    image: visibilityspots/cloudflared 
+    image: cloudflared #visibilityspots/cloudflared
     restart: unless-stopped
     depends_on: 
       - tor-socks-proxy
