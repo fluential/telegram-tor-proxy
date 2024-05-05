@@ -1,19 +1,18 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ffluential%2Ftelegram-tor-proxy%2F&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-# telegram-tor-proxy
+# Telegram Tor Stealth Proxy
 <img width="514" alt="mtprotor-logo-linetop-color" src="https://github.com/fluential/telegram-tor-proxy/assets/1957220/1bf3085a-9d5f-4b42-951f-12cfe2233d2a">
 
 Telegram over Tor Anonymizing Proxy
 
 
-## This is simple docker MTProto Telegram over Tor Anonymizing Proxy.
+## This is MTProto Telegram over Tor Anonymizing Stealth Proxy
 
-This docker-compose setup will expose a Telegram over Tor Anonymizing Proxy via SOCK5 proxy chaining feature of a an excellent [mtg:2](https://github.com/9seconds/mtg/tree/v2) alongside with Faketls and so on. There is no adtag support.
+This docker-compose setup will allow to connect to a Telegram over Tor Anonymizing Proxy via SOCK5 proxy chaining feature of a an excellent [mtg:2](https://github.com/9seconds/mtg/tree/v2) alongside with Faketls and so on. There is no adtag support.
 
 It will allow you to originate on telegram servers from one of the tor exit nodes. Be nice because telegram does not run tor hidden services so you are at mercy of tor exit node operators.
 
 ## Features
-
 - Enforce all traffic via tor
 - DNS-over-HTTPS via [Cloudflare TOR hidden resolver](https://blog.cloudflare.com/welcome-hidden-resolver) instead of TOR's built-in DNS mechanism which can be insecure.
 - Replay attack protection
