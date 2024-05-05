@@ -14,8 +14,26 @@ This docker-compose setup will expose a Telegram over Tor Anonymizing Proxy via 
 - DNS-over-HTTPS via [Cloudflare TOR hidden resolver](https://blog.cloudflare.com/welcome-hidden-resolver) instead of TOR's built-in DNS mechanism which can be insecure.
 - Replay attack protection
 - Domain fronting
-- FakeTLS implementation - appears as "another" domain name for standard ssl clients
+- FakeTLS implementation - by default appears as "storage.googleapis.com" domain name for standard ssl clients
 - Further proxy chaining
+
+## To run
+```shell
+docker-compose build
+docker-compose up
+```
+
+## Connect
+
+Default params are:
+
+Protocol: `Fake-TLS, URL-safe base64 secret`
+Server: `116.203.55.220`
+Port: `443`
+Hex secret: `7e673f88b044e516725dc2b71d21e8a9`
+Fake-TLS domain: `storage.googleapis.com`
+
+https://t.me/proxy?server=<YOUR_SERVER_IP>&port=443&secret=78bed9ab31be56bb41173c859d831f72
 
 ### Components
 
@@ -43,10 +61,5 @@ To get access details:
 }
 ```
 
-## To run:
-```shell
-docker-compose up
-```
-
-## More
+### More
 - [Telegram MTProto Proxy link generator](http://seriyps.ru/mtpgen.html)
