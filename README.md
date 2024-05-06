@@ -11,10 +11,11 @@ Telegram over Tor Anonymizing Proxy
 This docker-compose setup will allow to connect to a Telegram over Tor Anonymizing Proxy using excellent [mtg:2](https://github.com/9seconds/mtg/tree/v2). It uses iptables to block and redirect all traffic accordingly via TOR.
 
 It will allow you to:
+  - expose a stealth and secure telegram proxy for a large group of people
   - originate on telegram servers from one of the tor exit nodes. Be nice because telegram does not run tor hidden services so you are at mercy of tor exit node operators.
   - hide the fact of using telegram
-  - hide the fact of using tor
-  - chose your desired exit geo location (adjust torrc config to set `ExitNodes {GB}`)
+  - hide the fact of using tor, usually you would have to configure telegram client to connect directly to TOR socks port exposing tor usage to your local ISP
+  - chose your desired exit geo location (adjust torrc config to set exit node `ExitNodes {GB}`)
 
 ## Features
 - Enforce all traffic via tor
